@@ -1,10 +1,11 @@
-const { body, validationResult } = require('express-validator')
+const { body, validationResult } = require('express-validator');
+const { s3deleteFile } = require('../services/aws');
 
 const newsValidation = [
     body('name')
         .notEmpty()
         .withMessage('Enter a valid name')
-        .isLength({ max: 255 }),    // CHECK: This should be equal to max size in model
+        .isLength({ max: 255 }),    // CHECK: This should be equal to size in model
     body('content')
         .notEmpty()
         .withMessage('Enter a valid content'),
@@ -19,6 +20,8 @@ const validationHandler = (req, res, next) => {
     if (errors.isEmpty()) {
         return next();
     }
+
+    s3deleteFile(req.file);
 
     return res.status(422).json({
         errors: errors.array()
