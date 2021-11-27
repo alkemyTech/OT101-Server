@@ -18,4 +18,9 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+const newsController = require('../controllers/newsController');
+
+/* GET news listing. */
+router.get('/', newsController.index);
+
 module.exports = router;
