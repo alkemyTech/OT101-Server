@@ -13,5 +13,8 @@ module.exports = {
                 console.log(err);
                 res.sendStatus(500);
             });
-    }
+    },
+    create: function(req, res, next) {
+        res.send(req.body);
+    },
 }

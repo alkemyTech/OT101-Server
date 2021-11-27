@@ -19,8 +19,17 @@ router.delete('/:id', async (req, res) => {
 });
 
 const newsController = require('../controllers/newsController');
+const { newsValidation, validationHandler } = require('../middlewares/newsValidator');
 
 /* GET news listing. */
 router.get('/', newsController.index);
+
+/* POST news creation. */
+router.post(
+  '/',
+  newsValidation,
+  validationHandler,
+  newsController.create
+);
 
 module.exports = router;
