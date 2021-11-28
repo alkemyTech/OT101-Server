@@ -4,20 +4,34 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Slide extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       // define association here
     }
   };
   Slide.init({
-    imageURL: DataTypes.STRING,
+
+    imageURL: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: { notEmpty: true, isUrl: true },
+      unique: true
+    },
+
     text: DataTypes.TEXT,
-    order: DataTypes.INTEGER,
-    organizationID: DataTypes.UUID
+
+    order: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: { notEmpty: true, min: 0, isInt=true },
+      unique: true
+    },
+
+    organizationID: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      validate: { notEmpty: true, isUUID: true },
+      unique: true,
+    }
   }, {
     sequelize,
     modelName: 'Slide',
