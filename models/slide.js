@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     order: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate: { notEmpty: true, min: 0, isInt=true },
+      validate: { notEmpty: true, min: 0, isInt: true },
       unique: true
     },
 
