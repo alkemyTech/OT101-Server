@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const New = require('../models/new');
+// const New = require('../models/new');
 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
