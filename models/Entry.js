@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       categoryId: {
-        type: DateTypes.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       deletedAt: DataTypes.DATE,
