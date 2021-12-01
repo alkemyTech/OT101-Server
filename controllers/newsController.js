@@ -36,9 +36,9 @@ module.exports = {
   delete: async (req, res) => {
     const { id } = req.params;
     try {
-      const newObj = await New.findOne({ where: { id } });
-      if (newObj) {
-        await newObj.destroy();
+      const entry = await Entry.findOne({ where: { id } });
+      if (entry) {
+        await entry.destroy();
         res.sendStatus(200);
       } else {
         res.sendStatus(404);
