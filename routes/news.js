@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const New = require('../models/new');
 const { s3 } = require('../services/aws');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const { v4: uuidv4 } = require('uuid');
+const newsController = require('../controllers/newsController');
+const { newsValidation, validationHandler } = require('../middlewares/newsValidator');
 
 const upload = multer({
   storage: multerS3({
@@ -17,18 +18,8 @@ const upload = multer({
   }),
 });
 
-router.delete('/:id', newsController.delete);
-
-const newsController = require('../controllers/newsController');
-const { newsValidation, validationHandler } = require('../middlewares/newsValidator');
-
-/* GET news listing. */
 router.get('/', newsController.index);
-
-/*
-  POST news creation.
-  form-data expected
-*/
 router.post('/', upload.single('image'), newsValidation, validationHandler, newsController.create);
+router.delete('/:id', newsController.delete);
 
 module.exports = router;
