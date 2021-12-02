@@ -1,4 +1,4 @@
-const db = requiere('../models');
+const db = require('../models');
 
 const controller = {
     storeContact: async (req, res) => {
