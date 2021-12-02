@@ -1,6 +1,7 @@
 'use strict';
-const { Model } = require('sequelize');
-
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Contacts extends Model {
     /**
@@ -8,16 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    /* static associate(models) {
-      Contacts.belongsTo(models.Role, {as: 'role'});
-    } */
+    static associate(models) {
+      // define association here
+    }
   };
   Contacts.init({
     name: DataTypes.STRING,
     phone: DataTypes.STRING,
     email: DataTypes.STRING,
     message: DataTypes.STRING,
-    deletedAt: DataTypes.DATE
+    deleteAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Contacts',
