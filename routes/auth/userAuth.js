@@ -13,22 +13,25 @@ body('username').isEmail(),
 body('password').isLength({ min: 5 }),
 
 async (req, res, next) => {
+const errors = validationResult(req);
 
-    const user = await User.findOne({ where: { email: req.body.username } });
-    if (user === null) {
-      res.json({ok: false});
-    } else {
-        bcrypt.compare(req.body.password, user.password, function(err, result) {
-            if (result == true) {
-                res.send(user);
-            } else{
-                res.json({ok: false});
-            }
-        });
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }else
+        {
+        const user = await User.findOne({ where: { email: req.body.username } });
+        if (user === null) {
+        res.json({ok: false});
+        } else {
+            bcrypt.compare(req.body.password, user.password, function(err, result) {
+                if (result == true) {
+                    res.send(user);
+                } else{
+                    res.json({ok: false});
+                }
+            });
     }
-
-
-//   res.json({ok: false});
+    }
 });
 
 module.exports = router;
