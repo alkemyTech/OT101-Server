@@ -13,6 +13,7 @@ body('username').isEmail(),
 body('password').isLength({ min: 5 }),
 
 async (req, res, next) => {
+
 const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
