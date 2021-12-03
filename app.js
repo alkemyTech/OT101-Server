@@ -16,8 +16,6 @@ const membersRouter = require('./routes/members')
 //AUTH
 const userAuth = require('./routes/auth/userAuth')
 
-const membersRouter = require('./routes/members')
-
 const app = express();
 app.use(cors());
 
