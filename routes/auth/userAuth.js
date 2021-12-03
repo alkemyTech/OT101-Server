@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const authController = require('../../controllers/authController');
 const { body } = require('express-validator');
+const { verifyToken } = require('../../middlewares/authJWT');
 
 //bcrypt.js
 const saltRounds = 10;
@@ -31,6 +32,7 @@ router.post('/register',
 /* GET users listing. */
 router.post('/login',
     loginValidations,
+    verifyToken,
     authController.login
 );
 
