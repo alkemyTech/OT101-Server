@@ -35,4 +35,9 @@ router.post('/login',
     authController.login
 );
 
+const { userAuthValidation, validationHandler } = require('../../middlewares/userAuthValidator');
+const userAuthController = require('../../controllers/userAuthController');
+
+router.post('/', userAuthValidation, validationHandler, userAuthController.findOne);
+
 module.exports = router;
