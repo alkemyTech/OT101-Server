@@ -1,8 +1,9 @@
 const db = requiere('../models');
 
 const controller = {
-    listContacts: (req, res) => {
-        
+    listContacts: async (req, res) => {
+        const listContacts = await db.Contacts.findAll();
+        return res.json(listContacts);
     }
 }
 
