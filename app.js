@@ -12,7 +12,6 @@ const newsRouter = require('./routes/news');
 const regRouter = require('./routes/register');
 const organizationsRouter = require('./routes/organizations');
 const membersRouter = require('./routes/members')
-const backofficeRouter = require('./routes/backoffice');
 
 //AUTH
 const userAuth = require('./routes/auth/userAuth')
@@ -32,11 +31,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-/* app.use('/news', newsRouter); */
+app.use('/news', newsRouter);
 app.use('/members', membersRouter);
 app.use('/auth/register', regRouter);
 app.use('/organizations', organizationsRouter)
-app.use('/backoffice', backofficeRouter)
 
 app.use('/auth/register', regRouter);
 app.use('/auth/login', userAuth)
