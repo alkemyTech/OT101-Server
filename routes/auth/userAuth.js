@@ -32,7 +32,6 @@ router.post('/register',
 /* GET users listing. */
 router.post('/login',
     loginValidations,
-    verifyToken,
     authController.login
 );
 

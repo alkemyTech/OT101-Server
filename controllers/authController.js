@@ -1,7 +1,8 @@
 const { User } = require('../models/index');
 const bcrypt = require('bcrypt')
 const { validationResult } = require('express-validator');
-
+const authConfig = require('../config/authConfig');
+const jwt = require('jsonwebtoken');
 
 //bcrypt.js
 const saltRounds = 10;
@@ -36,13 +37,12 @@ module.exports = {
     } else {
       bcrypt.compare(req.body.password, user.password, function (err, result) {
         if (result == true) {
-          res.send(user);
+          let token = jwt.sign({ id: user.id }, authConfig.secret, {expiresIn: authConfig.expirationTime});
+          res.status(200).send({...user, token});
         } else {
           res.json({ ok: false });
         }
       });
     }
-
-    //   res.json({ok: false});
   }
 }
