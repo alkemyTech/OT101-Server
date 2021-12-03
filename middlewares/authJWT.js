@@ -17,7 +17,7 @@ module.exports = {
           message: "Unauthorized!"
         });
       }
-      req.userId = decoded.id;
+      req.user.id = decoded.id;
       next();
     });
   }

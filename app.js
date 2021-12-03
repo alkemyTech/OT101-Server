@@ -35,9 +35,8 @@ app.use('/members', membersRouter);
 
 app.use('/news', newsRouter);
 
-app.use('/auth/register', regRouter);
-
 app.use('/organizations', organizationsRouter)
+
 app.use('/auth', userAuth);
 
 
