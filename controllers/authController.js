@@ -37,7 +37,7 @@ module.exports = {
     } else {
       bcrypt.compare(req.body.password, user.password, function (err, result) {
         if (result == true) {
-          let token = jwt.sign({ id: user.id }, authConfig.secret, {expiresIn: authConfig.expirationTime});
+          let token = jwt.sign({ ...user }, authConfig.secret, {expiresIn: authConfig.expirationTime});
           res.status(200).send({...user, token});
         } else {
           res.json({ ok: false });
