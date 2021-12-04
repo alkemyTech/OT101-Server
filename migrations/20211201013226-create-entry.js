@@ -10,21 +10,21 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       name: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       image: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
       },
       type: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       categoryId: {
-        type: DateTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
-      deletedAt: DataTypes.DATE,
+      deletedAt: Sequelize.DATE,
     });
   },
   down: async (queryInterface, Sequelize) => {

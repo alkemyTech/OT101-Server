@@ -7,19 +7,19 @@ const { v4: uuidv4 } = require('uuid');
 const newsController = require('../controllers/newsController');
 const { newsValidation, validationHandler } = require('../middlewares/newsValidator');
 
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: process.env.AWS_BUCKET,
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    key: (req, file, cb) => {
-      cb(null, uuidv4());
-    },
-  }),
-});
+// const upload = multer({
+//   storage: multerS3({
+//     s3: s3,
+//     bucket: process.env.AWS_BUCKET,
+//     contentType: multerS3.AUTO_CONTENT_TYPE,
+//     key: (req, file, cb) => {
+//       cb(null, uuidv4());
+//     },
+//   }),
+// });
 
 router.get('/', newsController.index);
-router.post('/', upload.single('image'), newsValidation, validationHandler, newsController.create);
+router.post('/', newsValidation, validationHandler, newsController.create);
 router.delete('/:id', newsController.delete);
 router.put('/:id', newsController.update)
 
