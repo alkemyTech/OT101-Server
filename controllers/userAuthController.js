@@ -41,5 +41,19 @@ module.exports = {
                 }
             });
         }
+    },
+
+    getUserData: async (req, res) => {
+        const user = await User.findOne({ where: { id: req.user.id } });
+        if(!user){
+            res.status(404).send('User not found');
+        }else {
+            //the next three lines remove those properties from the user object that are not needed to be sent to the client 
+            delete user.dataValues.password;
+            delete user.dataValues.createdAt;
+            delete user.dataValues.updatedAt;
+            delete user.dataValues.deletedAt;
+            res.status(200).send(user);
+        }
     }
 }
