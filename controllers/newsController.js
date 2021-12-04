@@ -48,4 +48,12 @@ module.exports = {
       res.sendStatus(500);
     }
   },
+  update: async (req, res) => {
+
+    const { id } = req.params
+
+    const existingEntry = Entry.findByPk(id)
+
+
+  }
 };
