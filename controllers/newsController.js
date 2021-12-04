@@ -52,8 +52,38 @@ module.exports = {
 
     const { id } = req.params
 
-    const existingEntry = Entry.findByPk(id)
+    try {
+      const existingEntry = await Entry.findByPk(id)
 
+      if(!existingEntry) {
+        return res.status(404).json({
+          error: 'Entry not found'
+        })
+      }
+
+      // Destructure values from the body of the request
+      const { name, image, type, categoryId } = req.body
+
+
+      // If new information has been sent update, if not keep old data.
+      existingEntry.name = name || existingEntry.name
+      existingEntry.image = image || existingEntry.image
+      existingEntry.type = type || existingEntry.type
+      existingEntry.categoryId = categoryId || existingEntry.categoryId
+
+      // Save changes to database
+      await existingEntry.save()
+
+      return res.status(200).json({
+        entry: existingEntry
+      })
+
+
+      
+    } catch(error) {
+      console.log(error);
+      res.sendStatus(500)
+    }
 
   }
 };
