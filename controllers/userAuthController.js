@@ -48,7 +48,7 @@ module.exports = {
         if(!user){
             res.status(404).send('User not found');
         }else {
-            //the next three lines remove those properties from the user object that are not needed to be sent to the client 
+            //the next four lines remove those properties from the user object that are not needed to be sent to the client 
             delete user.dataValues.password;
             delete user.dataValues.createdAt;
             delete user.dataValues.updatedAt;
