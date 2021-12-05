@@ -7,9 +7,7 @@ module.exports = {
       res.status(400).send('Please provide a user id');
     }
     const user = await User.findOne({ where: { id } });
-    console.log(user)
     if (!user) {
-      console.log('User not found');
       res.status(404).send('User not found');
       return;
     }
