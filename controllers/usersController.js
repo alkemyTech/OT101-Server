@@ -1,15 +1,19 @@
-const { User } = require('../models/user');
+const { User } = require('../models');
 
 module.exports = {
-  delete: (req, res) => {
-    if (!req.params.id) {
+  delete: async (req, res) => {
+    const {id} = req.params;
+    if (!id) {
       res.status(400).send('Please provide a user id');
     }
-    User.findOne(req.params.id, (err, user) => {
-      if (err) {
-        res.status(400).send(err);
-      }
-      res.status(200).send(user)
-    })
+    const user = await User.findOne({ where: { id } });
+    console.log(user)
+    if (!user) {
+      console.log('User not found');
+      res.status(404).send('User not found');
+      return;
+    }
+    await user.destroy();
+    res.status(200).send(user);
   }
 }
