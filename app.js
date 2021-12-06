@@ -12,6 +12,7 @@ const newsRouter = require('./routes/news');
 const regRouter = require('./routes/register');
 const organizationsRouter = require('./routes/organizations');
 const membersRouter = require('./routes/members')
+const categoriesRouter = require('./routes/categories');
 
 //AUTH
 const userAuth = require('./routes/auth/userAuth')
@@ -33,7 +34,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/news', newsRouter);
 app.use('/members', membersRouter);
-app.use('/auth/register', regRouter);
+app.use('/categories', categoriesRouter);
 app.use('/organizations', organizationsRouter)
 
 app.use('/auth/register', regRouter);
