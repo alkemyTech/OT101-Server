@@ -1,0 +1,20 @@
+const { Activity } = require('../models');
+
+module.exports = {
+  update: async (req, res) => {
+    const { id } = req.id;
+    const { name, content, image } = req.body;
+    try {
+      let activity = await Activity.findOne({ where: { id } });
+      if (activity) {
+        activity = await activity.update({ name, content, image });
+        res.json(activity)
+      } else {
+        res.sendStatus(404);
+      }
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  },
+};
