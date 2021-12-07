@@ -7,8 +7,12 @@ module.exports = {
     try {
       let activity = await Activity.findOne({ where: { id } });
       if (activity) {
-        activity = await activity.update({ name, content, image });
-        res.json(activity)
+        activity = await activity.update({
+          name,
+          content,
+          image: (req.file ? req.file.location : image) || activity.image,
+        });
+        res.json(activity);
       } else {
         res.sendStatus(404);
       }
