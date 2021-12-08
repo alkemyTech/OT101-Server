@@ -1,34 +1,24 @@
 var express = require('express');
 var router = express.Router();
-const { User } = require('../../models/index');
-const bcrypt = require('bcrypt')
+const { userAuthValidation, registerValidation, validationHandler } = require('../../middlewares/userAuthValidator');
+const userAuthController = require('../../controllers/userAuthController');
 
-const { body, validationResult } = require('express-validator');
+//bcrypt.js
+const saltRounds = 10;
+
+/* Register new user endpoint. */
+router.post('/register',
+    registerValidation,
+    validationHandler,
+    userAuthController.register
+);
+
 
 /* GET users listing. */
-router.post('/',
-// username must be an email
-body('username').isEmail(),
-// password must be at least 5 chars long
-body('password').isLength({ min: 5 }),
-
-async (req, res, next) => {
-
-    const user = await User.findOne({ where: { email: req.body.username } });
-    if (user === null) {
-      res.json({ok: false});
-    } else {
-        bcrypt.compare(req.body.password, user.password, function(err, result) {
-            if (result == true) {
-                res.send(user);
-            } else{
-                res.json({ok: false});
-            }
-        });
-    }
-
-
-//   res.json({ok: false});
-});
+router.post('/login',
+    userAuthValidation,
+    validationHandler,
+    userAuthController.findOne
+);
 
 module.exports = router;
