@@ -22,6 +22,7 @@ const upload = multer({
 
 router.get('/', newsController.index);
 router.post('/', upload.single('image'), newsValidation, validationHandler, newsController.create);
+router.get('/:id', newsController.details)
 router.delete('/:id', newsController.delete);
 
 module.exports = router;
