@@ -4,6 +4,7 @@ const { userAuthValidation, registerValidation, validationHandler } = require('.
 const userAuthController = require('../../controllers/userAuthController');
 const { verifyToken } = require('../../middlewares/authJWT');
 
+
 //bcrypt.js
 const saltRounds = 10;
 
