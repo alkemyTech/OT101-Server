@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
-const { userAuthValidation, registerValidation, validationHandler } = require('../../middlewares/userAuthValidator');
+const { userAuthValidation, registerValidation } = require('../../middlewares/userAuthValidator');
 const userAuthController = require('../../controllers/userAuthController');
 const { verifyToken } = require('../../middlewares/authJWT');
-
+const validationHandler = require('../../middlewares/validatorMiddleware');
 
 //bcrypt.js
 const saltRounds = 10;
