@@ -4,8 +4,8 @@ module.exports = {
   create: async (req, res) => {
     const { name, email, phone, message } = req.body;
     try {
-      await Contacts.create({ name, email, phone, message });
-      res.sendStatus(200);
+      const contact = await Contacts.create({ name, email, phone, message });
+      res.json(contact);
     } catch (err) {
       console.error(err);
       res.sendStatus(500);
