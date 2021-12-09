@@ -1,4 +1,4 @@
-const { User } = require('../models/index');
+const { User, Role } = require('../models/index');
 const bcrypt = require('bcrypt')
 const { validationResult } = require('express-validator');
 const authConfig = require('../config/authConfig');
@@ -44,15 +44,10 @@ module.exports = {
     },
 
     getUserData: async (req, res) => {
-        const user = await User.findOne({ where: { id: req.user.id } });
+        const user = await User.findOne({ attributes: {exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt', 'roleId']}, include: [{ model: Role, as: 'role' }], where: { id: req.user.id } });
         if(!user){
             res.status(404).send('User not found');
         }else {
-            //the next four lines remove those properties from the user object that are not needed to be sent to the client 
-            delete user.dataValues.password;
-            delete user.dataValues.createdAt;
-            delete user.dataValues.updatedAt;
-            delete user.dataValues.deletedAt;
             res.status(200).send(user);
         }
     }
