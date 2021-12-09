@@ -21,7 +21,10 @@ const validationHandler = (req, res, next) => {
         return next();
     }
 
-    s3deleteFile(req.file);
+    if (req.file) {
+        s3deleteFile(req.file.key)
+            .catch(err => console.log(err));
+    }
 
     return res.status(422).json({
         errors: errors.array()
