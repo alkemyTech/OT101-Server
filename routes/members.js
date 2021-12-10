@@ -1,23 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-const { body, validationResult } = require('express-validator');
+const { membersValidation, validationHandler } = require('../middlewares/membersValidator');
+const membersController = require('../controllers/membersController')
 
-/* Post members. */
-router.post('/',
-// name must be a string
-  body('name').isString(),
-  (req, res) => {
-    // Finds the validation errors in this request and wraps them in an object
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-        {
-            res.json('miembro ok')
-    }
-
-  },
-);
+router.post('/', membersValidation, validationHandler, membersController.create);
 
 module.exports = router;
