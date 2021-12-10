@@ -6,9 +6,17 @@ const { verifyToken } = require('../middlewares/authJWT');
 const { s3multerUpload } = require('../services/aws');
 
 const { activitiesValidator } = require('../middlewares/activitiesValidator');
-const validationHandler = require('../middlewares/validatorMiddleware');
+const s3validationHandler = require('../middlewares/s3validatorMiddleware');
 
-router.post('/', verifyToken, isAdmin, activitiesValidator, validationHandler, activitiesController.create);
+router.post(
+  '/',
+  verifyToken,
+  isAdmin,
+  s3multerUpload.single('image'),
+  activitiesValidator,
+  s3validationHandler,
+  activitiesController.create
+);
 router.put('/:id', verifyToken, isAdmin, s3multerUpload.single('image'), activitiesController.update);
 
 module.exports = router;
