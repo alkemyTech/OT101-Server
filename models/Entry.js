@@ -3,7 +3,9 @@ const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Entry extends Model {
-    static associate(models) {}
+    static associate(models) {
+      Entry.belongsTo(models.Category)
+    }
   }
   Entry.init(
     {
@@ -16,11 +18,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      categoryId: {
-        type: DateTypes.INTEGER,
-        allowNull: false,
-      },
       deletedAt: DataTypes.DATE,
+      categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      }
     },
     {
       sequelize,
