@@ -33,6 +33,22 @@ module.exports = {
         res.sendStatus(500);
       });
   },
+  details: (req, res) => {
+    const { id } = req.params;
+      Entry
+        .findByPk(id)
+        .then(newsDetails => {
+          if (newsDetails) {
+            res.json(newsDetails);
+          } else {
+            res.sendStatus(404);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          res.sendStatus(500);
+        })
+  },
   delete: async (req, res) => {
     const { id } = req.params;
     try {
