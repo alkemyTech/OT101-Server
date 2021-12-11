@@ -4,7 +4,7 @@ module.exports = {
   create: (req, res) => {
     //TODO: 84
   },
-  update: (req, res) => {
+  update: async (req, res) => {
     const { id } = req.params;
     const { name, content } = req.body;
     try {
