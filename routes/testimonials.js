@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-
-const testimonialsController = require('../controllers/newsController');
+const { verifyToken } = require('../middlewares/authJWT');
+const testimonialsController = require('../controllers/testimonialsController');
+const { s3multerUpload } = require('../services/aws');
+const isAdmin = require('../middlewares/isAdmin');
 
 router.post(
   '/',
