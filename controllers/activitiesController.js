@@ -12,15 +12,15 @@ module.exports = {
     }
   },
   update: async (req, res) => {
-    const { id } = req.id;
-    const { name, content, image } = req.body;
+    const { id } = req.params;
+    const { name, content } = req.body;
     try {
       let activity = await Activity.findOne({ where: { id } });
       if (activity) {
         activity = await activity.update({
           name,
           content,
-          image: (req.file ? req.file.location : image) || activity.image,
+          image: req.file ? req.file.location : activity.image,
         });
         res.json(activity);
       } else {
