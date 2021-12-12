@@ -1,4 +1,4 @@
-const { body, validationResult } = require('express-validator');
+const { body } = require('express-validator');
 
 const userAuthValidation = [
     body('username').isEmail(),
@@ -14,14 +14,4 @@ const registerValidation = [
     body('lastName').isString(),
 ]
 
-const validationHandler = (req, res, next) => {
-    const errors = validationResult(req);
-    if (errors.isEmpty()) {
-        return next();
-    }
-    return res.status(400).json({
-        errors: errors.array()
-    });
-};
-
-module.exports = { userAuthValidation , registerValidation, validationHandler };
+module.exports = { userAuthValidation , registerValidation };
