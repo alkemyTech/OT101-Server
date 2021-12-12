@@ -11,10 +11,10 @@ const sendMail = async (emailTo, emailSender, subject, content) => {
 	}
 	try {
 		await sendGrid.send(msg)
-	} catch (err) {
+	} catch (error) {
 		console.error(error)
 
-		if (err.response) {
+		if (error.response) {
 			console.error(error.response.body)
 		}
 	}
