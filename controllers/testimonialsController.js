@@ -1,8 +1,15 @@
 const { Testimonial } = require('../models');
 
 module.exports = {
-  create: (req, res) => {
-    //TODO: 84
+  create: async (req, res) => {
+    const { name, content } = req.body;
+    try {
+      const testimonial = await Testimonial.create({ name, content, image: req.file.location });
+      res.json(testimonial);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
   },
   update: async (req, res) => {
     const { id } = req.params;
