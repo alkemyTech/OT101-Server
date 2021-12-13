@@ -3,6 +3,7 @@ var router = express.Router();
 const { userAuthValidation, registerValidation, validationHandler } = require('../../middlewares/userAuthValidator');
 const userAuthController = require('../../controllers/userAuthController');
 const { verifyToken } = require('../../middlewares/authJWT');
+const registerMailController = require('../../controllers/registerMailController')
 
 
 //bcrypt.js
@@ -12,7 +13,8 @@ const saltRounds = 10;
 router.post('/register',
     registerValidation,
     validationHandler,
-    userAuthController.register
+    userAuthController.register,
+    registerMailController.send
 );
 
 

@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const saltRounds = 10;
 
 module.exports = {
-    register: async (req, res) => {
+    register: async (req, res, next) => {
         // Finds the validation errors in this request and wraps them in an object with handy functions
         const errors = validationResult(req);
 
@@ -24,7 +24,8 @@ module.exports = {
             password: hashPassword,
             firstName: req.body.firstName,
             lastName: req.body.lastName
-        }).then(user => res.json(user));
+        })
+        return next();
     },
 
     findOne: async (req, res) => {
