@@ -2,7 +2,7 @@ const { User } = require('../models');
 
 module.exports = {
   delete: async (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
     if (!id) {
       res.status(400).send('Please provide a user id');
     }
@@ -13,5 +13,10 @@ module.exports = {
     }
     await user.destroy();
     res.status(200).send(user);
-  }
-}
+  },
+
+  deleteAuthUser: async (req, res) => {
+    await User.destroy({ where: { id: req.user.id } });
+    res.sendStatus(204);
+  },
+};
