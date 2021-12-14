@@ -19,4 +19,17 @@ module.exports = {
     await User.destroy({ where: { id: req.user.id } });
     res.sendStatus(204);
   },
+
+  edit: async (req, res) => {},
+
+  editAuthUser: async (req, res) => {
+    const { firstName, lastName, email } = req.body;
+    const user = await User.findByPk(req.user.id, {
+      attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt', 'roleId'] },
+      include: [{ model: Role, as: 'role' }],
+    });
+
+    //TODO
+    return await user.save();
+  },
 };
