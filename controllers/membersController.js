@@ -1,13 +1,10 @@
 const { Members } = require('../models/members');
+const db = require('../models')
 
 module.exports = {
-    list: (req, res) => {
-        /* const members = await Member.findAll({
-            attributes: ['firstName', 'lastName', 'image']
-        });
-        return res.json(members); */
-        Members.findAll({attributes: ['firstName', 'lastName', 'image']})
-            .then((entries) => res.json(entries))
+    listMembers: (req, res) => {
+        db.Members.findAll({attributes: ['firstName', 'lastName', 'image']})
+            .then((members) => res.json(members))
             .catch((err) => {
                 console.log(err);
                 res.sendStatus(500);

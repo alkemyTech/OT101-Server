@@ -8,7 +8,7 @@ const { s3multerUpload } = require('../services/aws');
 const isAdmin = require('../middlewares/isAdmin');
 const s3validationHandler = require('../middlewares/s3validatorMiddleware');
 
-router.get('/', /* verifyToken, isAdmin, */membersController.list);
+router.get('/', verifyToken, isAdmin,membersController.listMembers);
 router.post(
   '/',
   verifyToken,
