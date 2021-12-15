@@ -20,7 +20,7 @@ module.exports = {
 
         if (name) testimonial.name = name;
         if (content) testimonial.content = content;
-        if (req.file?.location) testimonial.image = reg.file.location;
+        if (req.file?.location) testimonial.image = req.file.location;
 
         await testimonial.save();
         res.json(testimonial);
