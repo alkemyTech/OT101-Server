@@ -6,7 +6,7 @@ const { contactsValidator } = require('../middlewares/contactsValidator');
 const validationHandler = require('../middlewares/validatorMiddleware');
 
 router.post('/', contactsValidator, validationHandler, contactsController.create);
-router.get('/', isAdmin, contactsController.listContacts)
+// router.get('/', isAdmin, contactsController.listContacts)
 
 
 module.exports = router;

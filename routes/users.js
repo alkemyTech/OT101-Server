@@ -1,15 +1,15 @@
 var express = require('express');
 var router = express.Router();
-const userController = require('../controllers/userController')
+const userController = require('../controllers/userController');
+const { verifyToken } = require("../middlewares/authJWT");
 const isAdmin = require('../middlewares/isAdmin')
 
 
 /* GET users listing. */
-router.get('/', isAdmin ,userController.listUsers);
+router.get('/', verifyToken, isAdmin, userController.listUsers);
 
 //auth middlwware needs to be added to this route
-router.route('/:id')
-  .delete(usersController.delete)
+//router.route('/:id') .delete(usersController.delete)
 
 
 module.exports = router;
