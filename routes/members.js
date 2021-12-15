@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const isAdmin = require('../middlewares/isAdmin');
 
 const { membersValidation, validationHandler } = require('../middlewares/membersValidator');
 const membersController = require('../controllers/membersController');
