@@ -22,27 +22,10 @@ module.exports = {
 
         if (name) values.name = name;
         if (content) values.content = content;
+        if (req.file?.location) values.image = req.file.location;
 
         activity = await activity.update(values);
         res.json(activity);
-      } else {
-        res.sendStatus(404);
-      }
-    } catch (err) {
-      console.error(err);
-      res.sendStatus(500);
-    }
-  },
-
-  updateImage: async (req, res) => {
-    const { id } = req.params;
-    try {
-      let activity = await Activity.findOne({ where: { id } });
-      if (activity) {
-        activity = await activity.update({
-          image: req.file?.location || activity.image,
-        });
-        res.json({ id: activity.id, image: activity.image });
       } else {
         res.sendStatus(404);
       }

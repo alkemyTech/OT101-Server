@@ -18,8 +18,6 @@ router.post(
   activitiesController.create
 );
 
-router.post('/:id/image', verifyToken, isAdmin, s3multerUpload.single('image'), activitiesController.updateImage);
-
-router.patch('/:id', verifyToken, isAdmin, activitiesController.update);
+router.patch('/:id', verifyToken, isAdmin, s3multerUpload.single('image'), activitiesController.update);
 
 module.exports = router;
