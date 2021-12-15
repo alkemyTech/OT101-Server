@@ -36,6 +36,7 @@ module.exports = {
         if (firstName) user.firstName = firstName;
         if (lastName) user.lastName = lastName;
         if (roleId) user.roleId = roleId;
+        if (req.file?.location) user.image = reg.file.location;
 
         await user.save();
         res.json(user);
@@ -60,6 +61,7 @@ module.exports = {
         if (firstName) user.firstName = firstName;
         if (lastName) user.lastName = lastName;
         if (email) user.email = email;
+        if (req.file?.location) user.image = reg.file.location;
 
         await user.save();
         res.json(user);
