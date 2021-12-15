@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Role } = require('../models');
 
 module.exports = {
   delete: async (req, res) => {
@@ -9,7 +9,7 @@ module.exports = {
         res.sendStatus(204);
       } else res.sendStatus(404);
     } catch (err) {
-      console.error(error);
+      console.error(err);
       res.sendStatus(500);
     }
   },
@@ -19,7 +19,7 @@ module.exports = {
       await User.destroy({ where: { id: req.user.id } });
       res.sendStatus(204);
     } catch (err) {
-      console.error(error);
+      console.error(err);
       res.sendStatus(500);
     }
   },
@@ -36,7 +36,7 @@ module.exports = {
         if (firstName) user.firstName = firstName;
         if (lastName) user.lastName = lastName;
         if (roleId) user.roleId = roleId;
-        if (req.file?.location) user.image = reg.file.location;
+        if (req.file?.location) user.image = req.file.location;
 
         await user.save();
         res.json(user);
@@ -61,7 +61,7 @@ module.exports = {
         if (firstName) user.firstName = firstName;
         if (lastName) user.lastName = lastName;
         if (email) user.email = email;
-        if (req.file?.location) user.image = reg.file.location;
+        if (req.file?.location) user.image = req.file.location;
 
         await user.save();
         res.json(user);
