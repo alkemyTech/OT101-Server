@@ -27,7 +27,9 @@ module.exports = {
   edit: async (req, res) => {
     try {
       const user = await User.findByPk(req.params.id, {
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt'] },
+        attributes: {
+          exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt'],
+        },
         include: [{ model: Role, as: 'role' }],
       });
 
@@ -52,7 +54,15 @@ module.exports = {
   editAuthUser: async (req, res) => {
     try {
       const user = await User.findByPk(req.user.id, {
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt', 'roleId'] },
+        attributes: {
+          exclude: [
+            'password',
+            'createdAt',
+            'updatedAt',
+            'deletedAt',
+            'roleId',
+          ],
+        },
         include: [{ model: Role, as: 'role' }],
       });
 
@@ -68,6 +78,17 @@ module.exports = {
       } else {
         res.sendStatus(404);
       }
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  },
+  list: async (req, res) => {
+    try {
+      const users = await User.findAll({
+        attributes: { exclude: ['password'] },
+      });
+      res.json(users);
     } catch (err) {
       console.error(err);
       res.sendStatus(500);

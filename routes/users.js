@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const usersController = require('../controllers/usersController');
 const { verifyToken } = require('../middlewares/authJWT');
-const isAdmin = require("../middlewares/isAdmin");
+const isAdmin = require('../middlewares/isAdmin');
 
+router.get('/', verifyToken, isAdmin, usersController.list);
 router.delete('/me', verifyToken, usersController.deleteAuthUser);
 router.delete('/:id', verifyToken, isAdmin, usersController.delete);
-router.patch('/me', verifyToken, usersController.editAuthUser)
+router.patch('/me', verifyToken, usersController.editAuthUser);
 router.patch('/:id', verifyToken, isAdmin, usersController.edit);
 
 module.exports = router;
