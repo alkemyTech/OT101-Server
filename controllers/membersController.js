@@ -1,11 +1,17 @@
-const { Member } = require('../models/members');
+const { Members } = require('../models/members');
 
 module.exports = {
-    list: async (req, res) => {
-        const members = await Member.findAll({
+    list: (req, res) => {
+        /* const members = await Member.findAll({
             attributes: ['firstName', 'lastName', 'image']
         });
-        return res.json(members);
+        return res.json(members); */
+        Members.findAll({attributes: ['firstName', 'lastName', 'image']})
+            .then((entries) => res.json(entries))
+            .catch((err) => {
+                console.log(err);
+                res.sendStatus(500);
+            });
     },
     create: function (req,res) {
         Member.create({
