@@ -9,8 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Members.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
+    name: DataTypes.STRING,
     image: DataTypes.STRING
   }, {
     sequelize,

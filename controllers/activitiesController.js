@@ -4,7 +4,7 @@ module.exports = {
   create: async (req, res) => {
     const { name, content } = req.body;
     try {
-      const activity = await Activity.create({ name, content });
+      const activity = await Activity.create({ name, content, image: req.file.location });
       res.json(activity);
     } catch (err) {
       console.error(err);
