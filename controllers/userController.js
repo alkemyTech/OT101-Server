@@ -1,7 +1,12 @@
 const { User } = require('../models');
 
 module.exports = {
-  delete: async (req, res) => {
+    listUsers: async (req, res) => {
+        let users = await User.findAll()
+
+        res.status(200).json(users)
+    },
+    delete: async (req, res) => {
     const {id} = req.params;
     if (!id) {
       res.status(400).send('Please provide a user id');
@@ -14,4 +19,4 @@ module.exports = {
     await user.destroy();
     res.status(200).send(user);
   }
-}
+};
