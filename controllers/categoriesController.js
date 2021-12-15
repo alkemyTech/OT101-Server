@@ -9,4 +9,12 @@ module.exports = {
                 res.sendStatus(500);
             });
     },
+    create: (req, res) => {
+        Category.create({ name: req.body.name })
+            .then(newCategory => res.json(newCategory))
+            .catch((err) => {
+                console.log(err);
+                res.sendStatus(500);
+            });
+    },
 };

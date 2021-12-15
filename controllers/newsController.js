@@ -35,19 +35,18 @@ module.exports = {
   },
   details: (req, res) => {
     const { id } = req.params;
-      Entry
-        .findByPk(id)
-        .then(newsDetails => {
-          if (newsDetails) {
-            res.json(newsDetails);
-          } else {
-            res.sendStatus(404);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          res.sendStatus(500);
-        })
+    Entry.findByPk(id)
+      .then((newsDetails) => {
+        if (newsDetails) {
+          res.json(newsDetails);
+        } else {
+          res.sendStatus(404);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+      });
   },
   delete: async (req, res) => {
     const { id } = req.params;
@@ -65,41 +64,30 @@ module.exports = {
     }
   },
   update: async (req, res) => {
-
-    const { id } = req.params
+    const { id } = req.params;
 
     try {
-      const existingEntry = await Entry.findByPk(id)
+      const existingEntry = await Entry.findByPk(id);
 
-      if(!existingEntry) {
+      if (!existingEntry) {
         return res.status(404).json({
-          error: 'Entry not found'
-        })
+          error: 'Entry not found',
+        });
       }
 
-      // Destructure values from the body of the request
-      const { name, image, type, categoryId } = req.body
+      const { name, type, categoryId } = req.body;
 
+      if (name) existingEntry.name = name;
+      if (type) existingEntry.type = type;
+      if (categoryId) existingEntry.categoryId = categoryId;
+      if (req.file?.location) existingEntry.image = req.file.location;
 
-      // If new information has been sent update, if not keep old data.
-      existingEntry.name = name || existingEntry.name
-      existingEntry.image = image || existingEntry.image
-      existingEntry.type = type || existingEntry.type
-      existingEntry.categoryId = categoryId || existingEntry.categoryId
+      await existingEntry.save();
 
-      // Save changes to database
-      await existingEntry.save()
-
-      return res.status(200).json({
-        entry: existingEntry
-      })
-
-
-      
-    } catch(error) {
+      res.status(200).json(existingEntry);
+    } catch (error) {
       console.log(error);
-      res.sendStatus(500)
+      res.sendStatus(500);
     }
-
-  }
+  },
 };
