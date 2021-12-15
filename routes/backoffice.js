@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
-const adminMiddleware = require ('../middlewares/isAdmin');
+const isAdmin = require ('../middlewares/isAdmin');
 const backofficeController = require('../controllers/backofficeController');
+const { verifyToken } = require("../middlewares/authJWT");
 
-router.get('/contacts', adminMiddleware, backofficeController.listContacts);
+router.get('/contacts', verifyToken, isAdmin, backofficeController.listContacts);
 
 module.exports = router;
