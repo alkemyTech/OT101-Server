@@ -1,3 +1,5 @@
 node_modules
 .env
 bin/www
+yarn.lock
+package-lock.json
