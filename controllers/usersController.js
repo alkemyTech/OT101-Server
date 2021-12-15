@@ -2,34 +2,73 @@ const { User } = require('../models');
 
 module.exports = {
   delete: async (req, res) => {
-    const { id } = req.params;
-    if (!id) {
-      res.status(400).send('Please provide a user id');
+    try {
+      const user = await User.findByPk(req.params.id);
+      if (user) {
+        await user.destroy();
+        res.sendStatus(204);
+      } else res.sendStatus(404);
+    } catch (err) {
+      console.error(error);
+      res.sendStatus(500);
     }
-    const user = await User.findOne({ where: { id } });
-    if (!user) {
-      res.status(404).send('User not found');
-      return;
-    }
-    await user.destroy();
-    res.status(200).send(user);
   },
 
   deleteAuthUser: async (req, res) => {
-    await User.destroy({ where: { id: req.user.id } });
-    res.sendStatus(204);
+    try {
+      await User.destroy({ where: { id: req.user.id } });
+      res.sendStatus(204);
+    } catch (err) {
+      console.error(error);
+      res.sendStatus(500);
+    }
   },
 
-  edit: async (req, res) => {},
+  edit: async (req, res) => {
+    try {
+      const user = await User.findByPk(req.params.id, {
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt'] },
+        include: [{ model: Role, as: 'role' }],
+      });
+
+      if (user) {
+        const { firstName, lastName, roleId } = req.body;
+        if (firstName) user.firstName = firstName;
+        if (lastName) user.lastName = lastName;
+        if (roleId) user.roleId = roleId;
+
+        await user.save();
+        res.json(user);
+      } else {
+        res.sendStatus(404);
+      }
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  },
 
   editAuthUser: async (req, res) => {
-    const { firstName, lastName, email } = req.body;
-    const user = await User.findByPk(req.user.id, {
-      attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt', 'roleId'] },
-      include: [{ model: Role, as: 'role' }],
-    });
+    try {
+      const user = await User.findByPk(req.user.id, {
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt', 'roleId'] },
+        include: [{ model: Role, as: 'role' }],
+      });
 
-    //TODO
-    return await user.save();
+      if (user) {
+        const { firstName, lastName, email } = req.body;
+        if (firstName) user.firstName = firstName;
+        if (lastName) user.lastName = lastName;
+        if (email) user.email = email;
+
+        await user.save();
+        res.json(user);
+      } else {
+        res.sendStatus(404);
+      }
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
   },
 };
