@@ -14,17 +14,16 @@ module.exports = {
 
   update: async (req, res) => {
     const { id } = req.params;
-    const { name, content } = req.body;
     try {
-      let activity = await Activity.findByPk(id);
+      const activity = await Activity.findByPk(id);
       if (activity) {
-        const values = {};
+        const { name, content } = req.body;
 
-        if (name) values.name = name;
-        if (content) values.content = content;
-        if (req.file?.location) values.image = req.file.location;
+        if (name) activity.name = name;
+        if (content) activity.content = content;
+        if (req.file?.location) activity.image = req.file.location;
 
-        activity = await activity.update(values);
+        await activity.save();
         res.json(activity);
       } else {
         res.sendStatus(404);
