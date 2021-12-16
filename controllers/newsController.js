@@ -3,7 +3,7 @@ const { Entry } = require('../models');
 module.exports = {
   index: function (req, res) {
     Entry.findAll({
-      attributes: ['name', 'image'],
+      attributes: ['id', 'name', 'image', 'createdAt', 'updatedAt'],
       where: {
         type: 'news',
       },
