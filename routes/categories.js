@@ -32,4 +32,11 @@ router.patch(
     categoriesController.update
 );
 
+router.delete(
+    '/:id',
+    verifyToken,
+    isAdmin,
+    categoriesController.delete
+);
+
 module.exports = router;

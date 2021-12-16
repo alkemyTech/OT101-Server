@@ -51,5 +51,19 @@ module.exports = {
 
             res.sendStatus(500);
         };
-    }
+    },
+    delete: async (req, res) => {
+        try {
+            const category = await Category.findByPk(req.params.id);
+            if (category) {
+                await category.destroy();
+                res.sendStatus(204);
+            } else {
+                res.sendStatus(404);
+            }
+        } catch (err) {
+            console.log(err);
+            res.sendStatus(500);
+        };
+    },
 };
