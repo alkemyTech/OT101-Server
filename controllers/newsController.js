@@ -3,7 +3,7 @@ const { Entry } = require('../models');
 module.exports = {
   index: function (req, res) {
     Entry.findAll({
-      attributes: ['name', 'image', 'createdAt'],
+      attributes: ['name', 'image'],
       where: {
         type: 'news',
       },
@@ -35,19 +35,18 @@ module.exports = {
   },
   details: (req, res) => {
     const { id } = req.params;
-      Entry
-        .findByPk(id)
-        .then(newsDetails => {
-          if (newsDetails) {
-            res.json(newsDetails);
-          } else {
-            res.sendStatus(404);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          res.sendStatus(500);
-        })
+    Entry.findByPk(id)
+      .then((newsDetails) => {
+        if (newsDetails) {
+          res.json(newsDetails);
+        } else {
+          res.sendStatus(404);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+      });
   },
   delete: async (req, res) => {
     const { id } = req.params;
@@ -61,6 +60,33 @@ module.exports = {
       }
     } catch (err) {
       console.error(err);
+      res.sendStatus(500);
+    }
+  },
+  update: async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const existingEntry = await Entry.findByPk(id);
+
+      if (!existingEntry) {
+        return res.status(404).json({
+          error: 'Entry not found',
+        });
+      }
+
+      const { name, type, categoryId } = req.body;
+
+      if (name) existingEntry.name = name;
+      if (type) existingEntry.type = type;
+      if (categoryId) existingEntry.categoryId = categoryId;
+      if (req.file?.location) existingEntry.image = req.file.location;
+
+      await existingEntry.save();
+
+      res.status(200).json(existingEntry);
+    } catch (error) {
+      console.log(error);
       res.sendStatus(500);
     }
   },

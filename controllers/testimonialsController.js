@@ -1,20 +1,28 @@
 const { Testimonial } = require('../models');
 
 module.exports = {
-  create: (req, res) => {
-    //TODO: 84
+  create: async (req, res) => {
+    const { name, content } = req.body;
+    try {
+      const testimonial = await Testimonial.create({ name, content, image: req.file.location });
+      res.json(testimonial);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
   },
   update: async (req, res) => {
     const { id } = req.params;
-    const { name, content } = req.body;
     try {
-      let testimonial = await Testimonial.findByPk(id);
+      const testimonial = await Testimonial.findByPk(id);
       if (testimonial) {
-        testimonial = await testimonial.update({
-          name,
-          content,
-          image: req.file ? req.file.location : testimonial.image,
-        });
+        const { name, content } = req.body;
+
+        if (name) testimonial.name = name;
+        if (content) testimonial.content = content;
+        if (req.file?.location) testimonial.image = req.file.location;
+
+        await testimonial.save();
         res.json(testimonial);
       } else {
         res.sendStatus(404);
