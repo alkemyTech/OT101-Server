@@ -1,23 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const activitiesController = require('../controllers/activitiesController');
-const isAdmin = require('../middlewares/isAdmin');
 const { verifyToken } = require('../middlewares/authJWT');
+const testimonialsController = require('../controllers/testimonialsController');
 const { s3multerUpload } = require('../services/aws');
-
-const { activitiesValidator } = require('../middlewares/activitiesValidator');
+const isAdmin = require('../middlewares/isAdmin');
 const s3validationHandler = require('../middlewares/s3validatorMiddleware');
+const { testimonialsValidation } = require('../middlewares/testimonialsValidator');
 
 router.post(
   '/',
   verifyToken,
   isAdmin,
   s3multerUpload.single('image'),
-  activitiesValidator,
+  testimonialsValidation,
   s3validationHandler,
-  activitiesController.create
+  testimonialsController.create
 );
-
-router.patch('/:id', verifyToken, isAdmin, s3multerUpload.single('image'), activitiesController.update);
+router.patch('/:id', verifyToken, isAdmin, s3multerUpload.single('image'), testimonialsController.update);
 
 module.exports = router;

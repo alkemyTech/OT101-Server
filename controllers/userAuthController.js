@@ -3,8 +3,8 @@ const bcrypt = require("bcrypt")
 const { validationResult } = require("express-validator")
 const authConfig = require("../config/authConfig")
 const jwt = require("jsonwebtoken")
-const sendMail = require('../services/sendMail')
 
+const sendMail = require('../services/sendMail')
 
 //bcrypt.js
 const saltRounds = 10
