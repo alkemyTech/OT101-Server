@@ -25,4 +25,11 @@ router.post(
     categoriesController.create
 );
 
+router.patch(
+    '/:id',
+    verifyToken, 
+    isAdmin,
+    categoriesController.update
+);
+
 module.exports = router;
