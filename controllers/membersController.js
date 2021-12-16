@@ -1,4 +1,5 @@
-const { Member } = require('../models');
+const { Member } = require('../models/');
+
 
 module.exports = {
   create: (req, res) => {
