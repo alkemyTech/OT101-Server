@@ -16,6 +16,6 @@ router.post(
   s3validationHandler,
   testimonialsController.create
 );
-router.put('/:id', verifyToken, isAdmin, s3multerUpload.single('image'), testimonialsController.update);
+router.patch('/:id', verifyToken, isAdmin, s3multerUpload.single('image'), testimonialsController.update);
 
 module.exports = router;

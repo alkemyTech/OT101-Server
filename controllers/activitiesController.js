@@ -11,17 +11,19 @@ module.exports = {
       res.sendStatus(500);
     }
   },
+
   update: async (req, res) => {
     const { id } = req.params;
-    const { name, content } = req.body;
     try {
-      let activity = await Activity.findOne({ where: { id } });
+      const activity = await Activity.findByPk(id);
       if (activity) {
-        activity = await activity.update({
-          name,
-          content,
-          image: req.file ? req.file.location : activity.image,
-        });
+        const { name, content } = req.body;
+
+        if (name) activity.name = name;
+        if (content) activity.content = content;
+        if (req.file?.location) activity.image = req.file.location;
+
+        await activity.save();
         res.json(activity);
       } else {
         res.sendStatus(404);

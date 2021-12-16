@@ -15,12 +15,12 @@ module.exports = {
   update: async (req, res) => {
     const { id } = req.params;
     try {
-      let member = await Member.findByPk(id);
+      const member = await Member.findByPk(id);
       if (member) {
-        member = await Member.update({
-          name: req.body.name,
-          image: req.file ? req.file.location : member.image,
-        });
+        if (req.body.name) member.name = req.body.name;
+        if (req.file?.location) member.image = req.file.location;
+
+        await member.save();
         res.json(member);
       } else {
         res.sendStatus(404);
