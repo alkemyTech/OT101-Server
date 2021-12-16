@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
-const { userAuthValidation, registerValidation, validationHandler } = require('../../middlewares/userAuthValidator');
+const { userAuthValidation, registerValidation } = require('../../middlewares/userAuthValidator');
 const userAuthController = require('../../controllers/userAuthController');
 const { verifyToken } = require('../../middlewares/authJWT');
-const registerMailController = require('../../controllers/registerMailController')
+const validationHandler = require('../../middlewares/validatorMiddleware');
 
 
 //bcrypt.js
@@ -14,7 +14,6 @@ router.post('/register',
     registerValidation,
     validationHandler,
     userAuthController.register,
-    registerMailController.send
 );
 
 
