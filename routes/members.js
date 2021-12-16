@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { membersValidation, validationHandler } = require('../middlewares/membersValidator');
+const { membersValidation } = require('../middlewares/membersValidator');
 const membersController = require('../controllers/membersController');
 const { verifyToken } = require('../middlewares/authJWT');
 const { s3multerUpload } = require('../services/aws');
@@ -17,5 +17,6 @@ router.post(
   membersController.create
 );
 router.patch('/:id', verifyToken, isAdmin, s3multerUpload.single('image'), membersController.update);
+router.delete('/:id', verifyToken, isAdmin, membersController.delete);
 
 module.exports = router;
