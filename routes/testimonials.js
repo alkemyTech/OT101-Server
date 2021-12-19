@@ -17,5 +17,6 @@ router.post(
   testimonialsController.create
 );
 router.patch('/:id', verifyToken, isAdmin, s3multerUpload.single('image'), testimonialsController.update);
+router.delete('/:id', verifyToken, isAdmin, testimonialsController.delete);
 
 module.exports = router;

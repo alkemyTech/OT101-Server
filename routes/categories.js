@@ -25,4 +25,18 @@ router.post(
     categoriesController.create
 );
 
+router.patch(
+    '/:id',
+    verifyToken, 
+    isAdmin,
+    categoriesController.update
+);
+
+router.delete(
+    '/:id',
+    verifyToken,
+    isAdmin,
+    categoriesController.delete
+);
+
 module.exports = router;
