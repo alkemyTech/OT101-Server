@@ -20,9 +20,9 @@ module.exports = {
 			return res.status(400).json({ errors: errors.array() })
 		}
 		const user = await User.create({
-			email: req.body.username,
+			email: req.body.email,
 			password: hashPassword,
-			firstName: req.body.firstName,
+			firstName: req.body.name,
 			lastName: req.body.lastName,
 		})
 
@@ -34,7 +34,7 @@ module.exports = {
 	},
 
 	findOne: async (req, res) => {
-		const user = await User.findOne({ where: { email: req.body.username } })
+		const user = await User.findOne({ where: { email: req.body.email } })
 		if (user === null) {
 			res.json({ ok: false })
 		} else {
