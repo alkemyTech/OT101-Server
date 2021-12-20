@@ -5,6 +5,10 @@ const categoriesValidator = [
     .notEmpty()
     .isLength({ max: 255 })
     .withMessage('Enter a valid name'),
+  body('description')
+    .notEmpty()
+    .isLength({ max: 255 })
+    .withMessage('Enter a valid description'),
 ];
 
 module.exports = { categoriesValidator };
