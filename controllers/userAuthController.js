@@ -4,6 +4,8 @@ const { validationResult } = require("express-validator")
 const authConfig = require("../config/authConfig")
 const jwt = require("jsonwebtoken")
 
+const sendMail = require('../services/sendMail')
+
 //bcrypt.js
 const saltRounds = 10
 
@@ -20,9 +22,9 @@ module.exports = {
 			return res.status(400).json({ errors: errors.array() })
 		}
 		const user = await User.create({
-			email: req.body.username,
+			email: req.body.email,
 			password: hashPassword,
-			firstName: req.body.firstName,
+			firstName: req.body.name,
 			lastName: req.body.lastName,
 		})
 
@@ -30,11 +32,18 @@ module.exports = {
 			expiresIn: authConfig.expirationTime,
 		})
 
-		res.status(200).send({ ...user, token })
+        let welcomeMail = await sendMail(
+            emailTo = req.body.username,
+            emailSender = process.env.ONG_EMAIL,
+            subject = 'Bienvenido ' + req.body.firstName + '!',
+            content = 'gracias por registrarse'
+        );
+
+		res.status(200).send({ ...user, token, welcomeMail })
 	},
 
 	findOne: async (req, res) => {
-		const user = await User.findOne({ where: { email: req.body.username } })
+		const user = await User.findOne({ where: { email: req.body.email } })
 		if (user === null) {
 			res.json({ ok: false })
 		} else {

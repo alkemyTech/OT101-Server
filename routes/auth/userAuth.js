@@ -12,7 +12,7 @@ const saltRounds = 10;
 router.post('/register',
     registerValidation,
     validationHandler,
-    userAuthController.register
+    userAuthController.register,
 );
 
 

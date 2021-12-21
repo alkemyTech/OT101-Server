@@ -1,17 +1,21 @@
-const { Member } = require('../models/');
-
+const { Members } = require('../models/members');
+const db = require('../models')
 
 module.exports = {
-  create: (req, res) => {
-    Member.create({
-      name: req.body.name,
-      image: req.file.location,
-    })
-      .then((member) => res.json(member))
-      .catch((err) => {
-        console.error(err);
-        res.sendStatus(500);
-      });
+    listMembers: (req, res) => {
+        db.Members.findAll({attributes: ['firstName', 'lastName', 'image']})
+            .then((members) => res.json(members))
+            .catch((err) => {
+                console.log(err);
+                res.sendStatus(500);
+            });
+    },
+    create: function (req,res) {
+        Member.create({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            image: req.body.image
+          }).then(member => res.json(member));
   },
   update: async (req, res) => {
     try {
