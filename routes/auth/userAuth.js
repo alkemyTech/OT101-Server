@@ -5,8 +5,6 @@ const userAuthController = require('../../controllers/userAuthController');
 const { verifyToken } = require('../../middlewares/authJWT');
 const validationHandler = require('../../middlewares/validatorMiddleware');
 
-//bcrypt.js
-const saltRounds = 10;
 
 /* Register new user endpoint. */
 router.post('/register',
