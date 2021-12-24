@@ -12,6 +12,6 @@ router.post(
   validationHandler,
   contactsController.create
 );
-router.get('/', verifyToken, isAdmin, contactsController.list);
+router.get('/'/* , verifyToken, isAdmin */, contactsController.list);
 
 module.exports = router;

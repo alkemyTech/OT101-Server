@@ -1,8 +1,8 @@
 const { Entry } = require('../models');
 
 module.exports = {
-  index: function (req, res) {
-    Entry.findAll({
+  index: async (req, res) => {
+    await Entry.findAll({
       attributes: ['id', 'name', 'image', 'createdAt', 'updatedAt'],
       where: {
         type: 'news',
