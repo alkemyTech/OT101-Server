@@ -33,4 +33,17 @@ module.exports = {
       res.sendStatus(500);
     }
   },
+  list: async (req, res) => {
+    try {
+      const activities = await Activity.findAll({ 
+        attributes: ['name', 'image'],
+        offset: 1,
+        limit: 6
+      });
+      res.json(activities);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
 };
