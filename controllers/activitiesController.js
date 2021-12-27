@@ -36,7 +36,7 @@ module.exports = {
   list: async (req, res) => {
     try {
       const activities = await Activity.findAll({ 
-        attributes: ['name', 'image'],
+        attributes: ['id', 'name', 'image'],
         offset: 1,
         limit: 6
       });
