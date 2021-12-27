@@ -17,7 +17,8 @@ router.post(
   s3validationHandler,
   activitiesController.create
 );
-
+/* Add activities get list */
+router.get('/', verifyToken, activitiesController.list);
 router.patch('/:id', verifyToken, isAdmin, s3multerUpload.single('image'), activitiesController.update);
 
 module.exports = router;
