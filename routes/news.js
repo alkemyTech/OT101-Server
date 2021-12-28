@@ -8,7 +8,7 @@ const s3validationHandler = require('../middlewares/s3validatorMiddleware');
 const { verifyToken } = require('../middlewares/authJWT');
 const isAdmin = require('../middlewares/isAdmin');
 
-router.get('/', newsController.index);
+router.get('/', verifyToken, newsController.lastElements);
 router.get('/backoffice', verifyToken, isAdmin, newsController.all);
 router.post('/', s3multerUpload.single('image'), newsValidation, s3validationHandler, newsController.create);
 router.get('/:id', newsController.details);
