@@ -18,9 +18,9 @@ router.post(
   activitiesController.create
 );
 /* Add activities get list */
-router.get('/', /* verifyToken, */ activitiesController.list);
-router.get('/backoffice', /* verifyToken, */ activitiesController.all);
-router.get('/:id', /* verifyToken, */ activitiesController.detail);
+router.get('/', verifyToken, activitiesController.list);
+router.get('/backoffice', verifyToken, isAdmin, activitiesController.all);
+router.get('/:id', verifyToken, activitiesController.detail);
 router.patch('/:id', verifyToken, isAdmin, s3multerUpload.single('image'), activitiesController.update);
 
 module.exports = router;

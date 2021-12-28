@@ -11,8 +11,8 @@ const router = express.Router();
 /* GET categories listing. */
 router.get(
     '/', 
-    /* verifyToken, 
-    isAdmin,  */
+    verifyToken, 
+    isAdmin, 
     categoriesController.list
 );
 
@@ -34,8 +34,8 @@ router.patch(
 
 router.delete(
     '/:id',
-    /* verifyToken,
-    isAdmin, */
+    verifyToken,
+    isAdmin,
     categoriesController.delete
 );
 
