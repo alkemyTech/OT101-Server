@@ -1,10 +1,11 @@
 const { Entry } = require('../models');
 
 module.exports = {
-  index: async (req, res) => {
+  lastElements: async (req, res) => {
     try {
       const news = await Entry.findAll({
         attributes: ['id', 'name', 'image', 'createdAt', 'updatedAt'],
+        order: [ [ 'createdAt', 'DESC' ]],
         offset: 1,
         limit: 6
       })
