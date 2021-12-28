@@ -18,5 +18,6 @@ router.post(
 );
 router.patch('/:id', verifyToken, isAdmin, s3multerUpload.single('image'), testimonialsController.update);
 router.delete('/:id', verifyToken, isAdmin, testimonialsController.delete);
+router.get('/backoffice', verifyToken, isAdmin, testimonialsController.listAll);
 
 module.exports = router;
