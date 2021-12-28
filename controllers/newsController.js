@@ -15,6 +15,18 @@ module.exports = {
         res.sendStatus(500);
     }
   },
+  all: async (req, res) => {
+    try {
+      const news = await Entry.findAll({
+        attributes: ['id', 'name', 'image', 'type', 'categoryId', 'createdAt', 'updatedAt', 'deletedAt'],
+      })
+        res.json(news);
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+  },
   create: function (req, res, next) {
     const { name, content, categoryId } = req.body;
     const newEntry = {
