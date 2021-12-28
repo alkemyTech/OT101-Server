@@ -45,5 +45,26 @@ module.exports = {
       console.error(err);
       res.sendStatus(500);
     }
+  },
+  all: async (req, res) => {
+    try {
+      const activities = await Activity.findAll({ 
+        attributes: ['id', 'name', 'image', 'content', 'deletedAt', 'createdAt', 'updatedAt'],
+      });
+      res.json(activities);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  },
+  detail: async (req, res) => {
+    try {
+      const activity = await Activity.findByPk(req.params.id)
+      res.json(activity);
+    }
+    catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
   }
 };
