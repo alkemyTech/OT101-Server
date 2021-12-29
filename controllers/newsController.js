@@ -5,8 +5,7 @@ module.exports = {
     try {
       const news = await Entry.findAll({
         attributes: ['id', 'name', 'image', 'createdAt', 'updatedAt'],
-        order: [ [ 'createdAt', 'DESC' ]],
-        offset: 1,
+        order: [ [ 'id', 'DESC' ]],
         limit: 6
       })
         res.json(news);
@@ -19,7 +18,7 @@ module.exports = {
   all: async (req, res) => {
     try {
       const news = await Entry.findAll({
-        attributes: ['id', 'name', 'image', 'type', 'categoryId', 'createdAt', 'updatedAt', 'deletedAt'],
+        attributes: ['id', 'name', 'image', 'type', 'categoryId', 'createdAt', 'updatedAt'],
       })
         res.json(news);
     }

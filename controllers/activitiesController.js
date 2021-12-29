@@ -37,7 +37,7 @@ module.exports = {
     try {
       const activities = await Activity.findAll({ 
         attributes: ['id', 'name', 'image'],
-        offset: 1,
+        order: [ [ 'id', 'DESC' ]],
         limit: 6
       });
       res.json(activities);
@@ -49,7 +49,7 @@ module.exports = {
   all: async (req, res) => {
     try {
       const activities = await Activity.findAll({ 
-        attributes: ['id', 'name', 'image', 'content', 'deletedAt', 'createdAt', 'updatedAt'],
+        attributes: ['id', 'name', 'image', 'content', 'createdAt', 'updatedAt'],
       });
       res.json(activities);
     } catch (err) {

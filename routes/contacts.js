@@ -8,8 +8,8 @@ const { verifyToken } = require('../middlewares/authJWT');
 
 router.post(
   '/',
-  contactsValidator,
-  validationHandler,
+  /* contactsValidator,
+  validationHandler, */
   contactsController.create
 );
 router.get('/', verifyToken, isAdmin, contactsController.list);

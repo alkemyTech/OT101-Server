@@ -3,7 +3,7 @@ const { Category } = require('../models');
 module.exports = {
     list: async (req, res) => {
         try {
-            const entries = await Category.findAll({attributes: ['id', 'name', 'description', 'deletedAt', 'createdAt', 'updatedAt']});
+            const entries = await Category.findAll({attributes: ['id', 'name', 'description', 'createdAt', 'updatedAt']});
             res.json(entries);
         } catch (err) {
             console.log(err);
