@@ -66,5 +66,19 @@ module.exports = {
       console.error(err);
       res.sendStatus(500);
     }
+  },
+  delete: async (req, res) => {
+    try {
+        const activity = await Activity.findByPk(req.params.id);
+        if (activity) {
+            await activity.destroy();
+            res.sendStatus(204);
+        } else {
+            res.sendStatus(404);
+        }
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    };
   }
 };
