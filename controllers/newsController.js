@@ -6,7 +6,7 @@ module.exports = {
       const news = await Entry.findAll({
         attributes: ['id', 'name', 'image', 'createdAt', 'updatedAt'],
         order: [ [ 'id', 'DESC' ]],
-        limit: 6
+        limit: 3
       })
         res.json(news);
     }
