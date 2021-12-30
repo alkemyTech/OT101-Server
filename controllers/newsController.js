@@ -1,18 +1,31 @@
 const { Entry } = require('../models');
 
 module.exports = {
-  index: function (req, res) {
-    Entry.findAll({
-      attributes: ['id', 'name', 'image', 'createdAt', 'updatedAt'],
-      where: {
-        type: 'news',
-      },
-    })
-      .then((entries) => res.json(entries))
-      .catch((err) => {
+  lastElements: async (req, res) => {
+    try {
+      const news = await Entry.findAll({
+        attributes: ['id', 'name', 'image', 'createdAt', 'updatedAt'],
+        order: [ [ 'id', 'DESC' ]],
+        limit: 3
+      })
+        res.json(news);
+    }
+    catch (err) {
         console.log(err);
         res.sendStatus(500);
-      });
+    }
+  },
+  all: async (req, res) => {
+    try {
+      const news = await Entry.findAll({
+        attributes: ['id', 'name', 'image', 'type', 'categoryId', 'createdAt', 'updatedAt'],
+      })
+        res.json(news);
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
   },
   create: function (req, res, next) {
     const { name, content, categoryId } = req.body;

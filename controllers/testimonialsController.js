@@ -45,4 +45,30 @@ module.exports = {
       res.sendStatus(500);
     }
   },
+  listAll: async (req, res) => {
+    try {
+      const testimonials = await Testimonial.findAll({
+        attributes: ['id', 'name', 'content', 'image', 'createdAt', 'updatedAt']
+      })
+      res.json(testimonials);
+    }
+    catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  },
+  lastElements: async (req, res) => {
+    try {
+      const testimonials = await Testimonial.findAll({
+        attributes: ['id', 'name', 'content', 'image'],
+        order: [ [ 'id', 'DESC' ]],
+        limit: 3
+      })
+      res.json(testimonials);
+    }
+    catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
 };

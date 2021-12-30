@@ -7,29 +7,43 @@ module.exports = {
       [
         {
           name: 'Apoyo Escolar para el nivel Primario',
-          image: 'https://picsum.photos/900/600',
+          image: '/Fotos/Foto 5.jpg',
           type: `news`,
+          categoryId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Apoyo Escolar para el nivel Secundaria',
-          image: 'https://picsum.photos/900/600',
+          image: '/Fotos/Foto 4.jpg',
           type: `news`,
+          categoryId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Tutorías',
-          image: 'https://picsum.photos/900/600',
+          image: '/Fotos/Foto 6.jpg',
           type: `news`,
+          categoryId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Taller Arte y Cuentos',
-          image: 'https://picsum.photos/900/600',
+          image: '/Fotos/Foto 10.jpg',
           type: 'news',
+          categoryId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Paseos recreativos y educativos',
-          image: 'https://picsum.photos/900/600',
-          type:
-            'news',
+          image: '/Fotos/Foto 11.jpg',
+          type: 'news',
+          categoryId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
       ],
       {}

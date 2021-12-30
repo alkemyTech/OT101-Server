@@ -17,7 +17,17 @@ router.post(
   s3validationHandler,
   activitiesController.create
 );
+/* Add activities get list */
+router.get('/', activitiesController.list);
+router.get('/backoffice', verifyToken, isAdmin, activitiesController.all);
+router.get('/:id', verifyToken, activitiesController.detail);
 
 router.patch('/:id', verifyToken, isAdmin, s3multerUpload.single('image'), activitiesController.update);
+router.delete(
+    '/:id',
+    verifyToken,
+    isAdmin,
+    activitiesController.delete
+);
 
 module.exports = router;

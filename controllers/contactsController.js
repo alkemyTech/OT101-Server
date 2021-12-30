@@ -3,7 +3,7 @@ const { Contacts } = require('../models');
 module.exports = {
   list: async (req, res) => {
     try {
-      const contacts = await Contacts.findAll();
+      const contacts = await Contacts.findAll({attributes: ['id', 'name', 'lastname', 'phone', 'email', 'message', 'deleteAt']});
       res.json(contacts);
     } catch (err) {
       console.error(err);
