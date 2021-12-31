@@ -3,7 +3,8 @@ const config = require("../config/authConfig.js");
 
 module.exports = {
   verifyToken: (req, res, next) => {
-    let token = req.headers["authorization"];
+    // Remove 'Bearer '
+    let token = req.headers?.authorization?.split(' ')[1];
 
     if (!token) {
       return res.status(403).send({
@@ -17,7 +18,8 @@ module.exports = {
           message: "Unauthorized!"
         });
       }
-      req.user = decoded.dataValues;
+
+      req.user = decoded;
       next();
     });
   }
