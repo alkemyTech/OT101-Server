@@ -21,57 +21,73 @@ module.exports = {
 		if (!errors.isEmpty()) {
 			return res.status(400).json({ errors: errors.array() })
 		}
-		const user = await User.create({
-			email: req.body.email,
-			password: hashPassword,
-			firstName: req.body.name,
-			lastName: req.body.lastName,
-		})
 
-		let token = jwt.sign({ ...user }, authConfig.secret, {
-			expiresIn: authConfig.expirationTime,
-		})
+		try {
+			const { dataValues: user } = await User.create({
+				email: req.body.email,
+				password: hashPassword,
+				firstName: req.body.name,
+				lastName: req.body.lastName,
+			})
 
-        let welcomeMail = await sendMail(
-            emailTo = req.body.username,
-            emailSender = process.env.ONG_EMAIL,
-            subject = 'Bienvenido ' + req.body.firstName + '!',
-            content = 'gracias por registrarse'
-        );
+			delete user.password;
 
-		res.status(200).send({ ...user, token, welcomeMail })
+			let token = jwt.sign({ id: user.id }, authConfig.secret, {
+				expiresIn: authConfig.expirationTime,
+			})
+
+			let welcomeMail = await sendMail(
+				emailTo = req.body.username,
+				emailSender = process.env.ONG_EMAIL,
+				subject = 'Bienvenido ' + req.body.firstName + '!',
+				content = 'gracias por registrarse'
+			);
+
+			res.status(200).json({ ...user, token, welcomeMail })
+		} catch (err) {
+			res.status(500).json({ errors: err});
+		};
 	},
 
 	findOne: async (req, res) => {
-		const user = await User.findOne({ where: { email: req.body.email } })
-		if (user === null) {
-			res.json({ ok: false })
-		} else {
-			bcrypt.compare(req.body.password, user.password, function (err, result) {
-				if (result == true) {
-					let token = jwt.sign({ ...user }, authConfig.secret, {
-						expiresIn: authConfig.expirationTime,
-					})
-					res.status(200).send({ ...user, token })
-				} else {
-					res.json({ ok: false })
-				}
-			})
+		try {
+			const user = await User.findOne({ where: { email: req.body.email },  raw: true} )
+			if (user === null) {
+				res.json({ ok: false })
+			} else {
+				bcrypt.compare(req.body.password, user.password, function (err, result) {
+					if (result == true) {
+						delete user.password;
+
+						let token = jwt.sign({ id: user.id }, authConfig.secret, {
+							expiresIn: authConfig.expirationTime,
+						})
+						res.status(200).json({ ...user, token })
+					} else {
+						res.json({ ok: false })
+					}
+				})
+			}
+		} catch (err) {
+			res.status(500).json({ errors: err});
 		}
 	},
 
 	getUserData: async (req, res) => {
-		const user = await User.findOne({
-			attributes: {
-				exclude: ["password", "createdAt", "updatedAt", "deletedAt", "roleId"],
-			},
-			include: [{ model: Role, as: "role" }],
-			where: { id: req.user.id },
-		})
-		if (!user) {
-			res.status(404).send("User not found")
-		} else {
-			res.status(200).send(user)
+		try {
+			const user = await User.findByPk(req.user.id, {
+				attributes: {
+					exclude: ["password", "createdAt", "updatedAt", "deletedAt", "roleId"],
+				},
+				include: [{ model: Role, as: "role" }],
+			})
+			if (!user) {
+				res.status(404).json({errors: "User not found"})
+			} else {
+				res.status(200).json(user);
+			}
+		} catch (err) {
+			res.status(500).json({errors: err});
 		}
 	},
 }
