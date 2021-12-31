@@ -51,7 +51,11 @@ module.exports = {
 
 	findOne: async (req, res) => {
 		try {
-			const user = await User.findOne({ where: { email: req.body.email },  raw: true} )
+			const { dataValues: user } = await User.findOne({
+				where: { email: req.body.email },
+				include: [{ model: Role, as: "role" }],
+			})
+
 			if (user === null) {
 				res.json({ ok: false })
 			} else {
