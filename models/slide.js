@@ -5,7 +5,9 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Slide extends Model {
     static associate(models) {
-      // define association here
+      Slide.belongsTo(models.Organization, {
+        as: 'organization'
+      });
     }
   };
   Slide.init({
@@ -27,10 +29,9 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     organizationID: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: false,
-      validate: { notEmpty: true, isUUID: true },
-      unique: true,
+      validate: { notEmpty: true },
     }
   }, {
     sequelize,
