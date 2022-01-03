@@ -53,7 +53,7 @@ const controller = {
 
 			await Slide.bulkCreate(
 				[
-					{ imageUR1: img1, text: img1text, order: 1, organizationID: id },
+					{ imageURL: img1, text: img1text, order: 1, organizationID: id },
 					{ imageURL: img2, text: img2text, order: 2, organizationID: id },
 					{ imageURL: img3, text: img3text, order: 3, organizationID: id }
 				],
