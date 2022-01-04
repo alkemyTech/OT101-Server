@@ -3,7 +3,7 @@ const db = require('../models')
 
 module.exports = {
     listMembers: (req, res) => {
-        db.Members.findAll({attributes: ['firstName', 'lastName', 'image']})
+        db.Members.findAll({attributes: ['id', 'firstName', 'lastName', 'image']})
             .then((members) => res.json(members))
             .catch((err) => {
                 console.log(err);
