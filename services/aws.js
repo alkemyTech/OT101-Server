@@ -24,6 +24,7 @@ const s3multerUpload = isS3Configured ?
             storage: multerS3({
                 s3: s3,
                 bucket: process.env.AWS_BUCKET || 'config AWS vars',
+                acl: 'public-read',
                 contentType: multerS3.AUTO_CONTENT_TYPE,
                 key: (req, file, cb) => {
                     const fileExt = file.mimetype.split("/").pop();
