@@ -20,7 +20,7 @@ router.post(
 /* Add activities get list */
 router.get('/', activitiesController.list);
 router.get('/backoffice', verifyToken, isAdmin, activitiesController.all);
-router.get('/:id', verifyToken, activitiesController.detail);
+router.get('/:id', activitiesController.detail);
 
 router.patch('/:id', verifyToken, isAdmin, s3multerUpload.single('image'), activitiesController.update);
 router.delete(
