@@ -30,39 +30,72 @@ const controller = {
 	update: async (req, res) => {
 		const { id } = req.params;
 		const { welcomeText, img1text, img2text, img3text } = req.body;
+		const files = [
+			req.files['img1'] ? req.files['img1'][0].location : null,
+			req.files['img2'] ? req.files['img2'][0].location : null,
+			req.files['img3'] ? req.files['img3'][0].location : null,
+		];
+		const texts  = [img1text, img2text, img3text];
 
-		const img1 = req.files.img1[0].location;
-		const img2 = req.files.img2[0].location;
-		const img3 = req.files.img3[0].location;
+		let deleteWhereCondition = [];
+		let insertSlides = [];
+		let updateTexts = [];
 
-		if (!welcomeText.length || !img1 || !img2 || !img3) {
+		files.forEach((file, idx) => {
+			if (file) {
+				deleteWhereCondition.push({order: idx + 1});
+				insertSlides.push({
+					imageURL: file,
+					text: texts[idx],
+					order: idx + 1,
+					organizationID: id
+				});
+			} else { // Only updating image's text
+				if (texts[idx]) {
+					updateTexts.push({'order': idx +1, 'text': texts[idx]})
+					console.log('updating:', texts[idx])
+				}
+			}
+		});
+
+		if (!welcomeText && !deleteWhereCondition.length &&
+			!insertSlides.length && !updateTexts) {
 			return res.status(400);
 		}
 
 		const t = await sequelize.transaction();
 		try {
-			await Organization.update(
-				{ id, welcomeText },
-				{ where: { id: id}, transaction: t }
-			);
+			if (welcomeText) {
+				await Organization.update(
+					{ welcomeText },
+					{ where: { id: id}, transaction: t }
+				);
+			}
 
-			await Slide.destroy({
-				where: { [Sequelize.Op.or]: [{order: 1}, {order: 2}, {order: 3}] },
-				transaction: t,
-			});
+			if (deleteWhereCondition.length) {
+				await Slide.destroy({
+					where: { [Sequelize.Op.or]: deleteWhereCondition },
+					transaction: t,
+				});
+			}
 
-			await Slide.bulkCreate(
-				[
-					{ imageURL: img1, text: img1text, order: 1, organizationID: id },
-					{ imageURL: img2, text: img2text, order: 2, organizationID: id },
-					{ imageURL: img3, text: img3text, order: 3, organizationID: id }
-				],
-				{ transaction: t }
-			);
+			if (insertSlides.length) {
+				await Slide.bulkCreate(insertSlides, { transaction: t });
+			}
+
+			for (const updateText of updateTexts) {
+				await Slide.update(
+					{text: updateText.text},
+					{ 
+						where: {order: updateText.order},
+						transaction: t
+					}
+				);
+			};
 
 			await t.commit();
 
-			return res.json({});
+			return res.status(200);
 		} catch (error) {
 			await t.rollback();
 
