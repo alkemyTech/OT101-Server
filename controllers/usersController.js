@@ -34,9 +34,10 @@ module.exports = {
       });
 
       if (user) {
-        const { firstName, lastName, roleId } = req.body;
+        const { firstName, lastName, roleId, email } = req.body;
         if (firstName) user.firstName = firstName;
         if (lastName) user.lastName = lastName;
+        if (email) user.email = email;
         if (roleId) user.roleId = roleId;
         if (req.file?.location) user.image = req.file.location;
 
