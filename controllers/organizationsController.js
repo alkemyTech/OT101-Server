@@ -9,7 +9,7 @@ const controller = {
 			const org = await Organization.findByPk(
 				id,
 				{
-					attributes: { exclude: ['id', 'createdAt', 'updatedAt']},
+					attributes: { exclude: ['createdAt', 'updatedAt']},
 					include: {
 						model: Slide,
 						attributes: ['imageURL', 'text', 'order']
