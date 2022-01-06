@@ -1,4 +1,5 @@
 const { Testimonial } = require('../models');
+const { Entry } = require('../models');
 
 module.exports = {
   create: async (req, res) => {
@@ -56,6 +57,21 @@ module.exports = {
       console.error(err);
       res.sendStatus(500);
     }
+  },
+  details: (req, res) => {
+    const { id } = req.params;
+    Testimonial.findByPk(req.params.id)
+      .then((testimonialDetails) => {
+        if (testimonialDetails) {
+          res.json(testimonialDetails);
+        } else {
+          res.sendStatus(404);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+      });
   },
   lastElements: async (req, res) => {
     try {
